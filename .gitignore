@@ -1,0 +1,14 @@
+# Account sessions and local settings must stay on this computer.
+Data/
+**/Data/
+
+# Generated application and temporary test/build files.
+*.exe
+*.pdb
+*.zip
+*.tmp
+bin/
+obj/
+work/
+test-results/
+.vs/
