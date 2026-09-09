@@ -1,20 +1,23 @@
 # Verification
 
-Built on September 9, 2026, using the installed 64-bit .NET Framework compiler.
+## Launcher-only revision — September 10, 2026
 
-Passed:
+- Compiled successfully with the installed 64-bit .NET Framework C# compiler.
+- Compared with the original GitHub source: protocol backup/recovery, native singleton-handle and junction operations, client launch, monitoring, and relay code are unchanged.
+- Removed the account management and game-link controls and their handlers. Legacy profile settings remain readable to preserve existing local data.
+- Runtime self-tests and UI rendering were attempted, but Windows Application Control blocked the new executable before it started. This revision's interface has therefore not been verified at runtime in the agent environment.
+- The user reported successful multi-instance play with the original version. That is a user report, not an independent test of this revised build.
 
-- C# compilation.
-- Roblox game-ID and URL validation, including rejection of deceptive domains, non-HTTPS links, alternate ports, and argument injection.
-- Settings serialization and atomic file replacement.
-- Directory-junction creation, access through the junction, and removal without deleting the original target files.
-- Inspection of a synthetic child process: exactly two designated mutex/event handles removed, an unrelated event retained, and a repeated scan making no further changes. No live Roblox process was touched.
-- Windows Forms construction and image rendering; the interface was visually inspected.
+## Earlier checks — original version
 
-Unavailable or unverified:
+Compilation, launch-link validation, settings serialization and replacement, directory junction creation/removal, synthetic child-process handle inspection, and Windows Forms construction/rendering passed. The synthetic test removed exactly two designated handles while preserving an unrelated event.
 
-- Registry integration tests attempted a randomly named test key, separate from Roblox. The environment denied write access, so protocol registration, restoration, and crash recovery have not been verified against the Windows registry.
-- The installed Roblox files were inaccessible from the agent environment. No authenticated Roblox launch or simultaneous two-account game session was tested.
-- Edge's external-protocol prompt, Roblox updates and teleports, sustained play, resource consumption, and display scaling on other systems need real-world testing.
+Registry integration tests were blocked by access permissions in the agent environment. Authenticated Roblox gameplay was not independently tested by the agent.
 
-The included `--self-test <folder>` mode tests URL handling, storage, junctions, synthetic process handles, and form rendering. It launches only a temporary dummy process. Use a new, empty test folder. `--protocol-test <folder>` additionally exercises a dedicated temporary Windows registry key; it does not use Roblox's real protocol key.
+## Available tests
+
+Use a new, empty folder with `--self-test <folder>` to exercise launch-link validation, settings storage, directory junctions, a synthetic child process, and form rendering.
+
+`--protocol-test <folder>` exercises a dedicated temporary registry key, separate from Roblox's actual protocol key.
+
+Compatibility with future Roblox updates, teleports, sustained play, and other display scaling settings still requires real-world testing.
